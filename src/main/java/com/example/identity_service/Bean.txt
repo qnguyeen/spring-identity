@@ -20,3 +20,13 @@ chọn package để scan : @ComponentScan({"package1", "package2"})
 => @Component("dress") / @Component("bikini")
 dùng @Qualified đi kèm với @Autowired("tên bean ưu tiên")
 *Trường hợp dùng @Autowired với Constructor hay method Set -> thêm vào khai báo biến
+
+*Nếu không khai báo @Component cho class, có thể cấu hình bean
+@Configuration
+public class AppConfig {
+    @Bean
+    SimpleBean simpleBeanConfigure(){//SimpleBean này là 1 class chưa khai báo Bean
+        // Khởi tạo một instance của SimpleBean và trả ra ngoài
+        return new SimpleBean("loda");
+    }
+}

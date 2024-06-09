@@ -1,9 +1,11 @@
 package com.example.identity_service.controller;
 
+import com.example.identity_service.dto.request.ApiResponse;
 import com.example.identity_service.dto.request.UserCreationRequest;
 import com.example.identity_service.dto.request.UserUpdateRequest;
 import com.example.identity_service.entity.User;
 import com.example.identity_service.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +18,13 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    User createUser(@RequestBody UserCreationRequest request) {
+    ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest request) {
         //@RequestBody : chuyển JSON trong file UserCrea thành đối tượng java
+        //@Valid : kích hoạt cơ chế xác thực được định nghĩa trên các trường UserCrea
         //method nhận đối tượng UserCreationRequest từ body của yêu cầu
-        return userService.createUser(request);//gọi xuống Service
+        ApiResponse<User> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(userService.createUser(request));
+        return apiResponse;
     }
 
     @GetMapping
