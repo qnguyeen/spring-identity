@@ -1,0 +1,22 @@
+
+
+Bean : khi lệnh run thực thi, SP tạo 1 container là AppContext - thứ sẽ tìm kiếm các bean trong Prj để đưa vào lưu trữ
+Bean : các object java được container tạo ra để quản lý và lưu trữ, khác với object bình thường được dev tạo ra
+khai báo bean @Component trước Class
+gửi yêu cầu tìm : context.getBean(className.class)
+chọn package để scan : @ComponentScan({"package1", "package2"})
+
+@Autowired : cont tự tạo 1 thuộc tính = cách tìm bean tương ứng trong context  - thứ đã được khai báo @Component
+=> không bị phụ thuộc với đối tượng khác vì Obj được tự động tạo ra khi chạy
+@Autowired được thêm phía trước object được khai báo
+
+*Khi tạo ra 2 đối tượng chung 1 Bean - > sẽ bị trùng Bean
+=> dùng @Scope("prototype") sau @Component -> tạo 2 instance khác nhau
+               @Scope("singletor") -> trùng instance
+
+*Khi implement 2 bean vào 1 Interface, nó sẽ không biết chọn cái nào
+=> dùng @Primary : ưu tiên Bean được khai báo primary
+*Khi cả 2 Bean đều Primary
+=> @Component("dress") / @Component("bikini")
+dùng @Qualified đi kèm với @Autowired("tên bean ưu tiên")
+*Trường hợp dùng @Autowired với Constructor hay method Set -> thêm vào khai báo biến
