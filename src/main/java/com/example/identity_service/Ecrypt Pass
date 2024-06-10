@@ -1,0 +1,17 @@
+
+
+Hash mật khẩu user thành 1 chuỗi đã mã hoá
+Khi user yêu cầu đăng nhập -> hax mật khẩu đó 1 lần nữa rồi so sánh
+
+Salt : thêm salt mã hoá vào hash
+
+BCryptPasswordEncoder là implement của PasswordEncoder(1 interface của spring security)
+PassEncode gồm 3 method:
+- encode : mã hoá
+- matches : kiểm tra trùng nhau
+- upgradeEncoding
+Mã hoá pass : user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+Xử lý : tạo 1 controller để xử lý
+Thêm 2 DTO : authenRequest - lưu username và pass người dùng nhập vào
+             authenResponse - boolean trả về true or false nếu trùng hoă sai

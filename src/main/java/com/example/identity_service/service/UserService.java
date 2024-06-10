@@ -11,6 +11,8 @@ import com.example.identity_service.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +29,7 @@ public class UserService {
     //Lưu ý : đôi khi chúng ta chỉ muốn trả về những object nhất định chứ k trả về toán bộ
     //-> tạo 1 DTO khác để nhận dữ liệu trả vể : dto.response.UserResponse
     //public User createUser(UserCreationRequest request){}
-    public User createUser(UserCreationRequest request){
+    public UserResponse createUser(UserCreationRequest request){
         //kiểm tra nếu trùng với username đã tồn tại
         if (userRepository.existsByUsername(request.getUsername()))
             throw new AppException(ErrorCode.USER_EXISTED);
@@ -38,7 +40,11 @@ public class UserService {
         //method userMapper sẽ map những field cùng tên lại với nhau, xem trong targer
         //tương đương dùng : user.setUsername(request.getUsername());
 
-        return userRepository.save(user);//gọi method Save từ JPA
+        //mã hoá pass
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);//10 : độ mạnh
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        return userMapper.toUserResponse(userRepository.save(user));
     }
     public UserResponse updateUser(String userId, UserUpdateRequest request) {
         //vì ở đây phải tìm userId trước khi map nên có phải khai báo field mapper đích và field mapper

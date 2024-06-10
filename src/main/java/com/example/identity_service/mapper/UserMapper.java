@@ -16,7 +16,7 @@ public interface UserMapper {
     User toUser(UserCreationRequest request);
     //khi gọi userMapper.toUser(requet) ở Service, nó sẽ tự động map các giá trị UserCrea vào User
 
-    @Mapping(source = "",target = "")//tự chỉ định field muốn map
+    //@Mapping(source = "",target = "") tự chỉ định field muốn map
     UserResponse toUserResponse(User user);
     //map giá trị từ User -> UserResponse
 
