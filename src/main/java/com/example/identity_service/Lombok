@@ -1,0 +1,19 @@
+
+
+giúp rút ngắn dòng code hay sử dụng như getter setter
+
+@Data : tự động tạo method getter setter đồng thời thêm constructor cho class
+@Builder : giúp tạo các đối tượng một cách rõ ràng, có thể thiết lập giá trị
+ví dụ sử dụng builder :
+        UserCreationRequest request1 = UserCreationRequest.builder()
+                .username("bachoccho")
+                .password("admin123")
+                .build();
+
+@NoArgsConstructor, @AllArgsConstructor
+@FieldDefault(level = ) : xác định kiểu cho các field (private/public/...)
+
+Ngoài ra lombok còn hỗ trợ inject bean vào class mà không dùng @Autowired
+@RequiredArgsConstructor : tạo constructor cho các biến được define = final
++ dùng kết hợp với @FieldDefauls(level = , makeFinal = true)
+-> cái makeFinal biến những field không khai báo gì thanh` final : User user -> private final User user;
