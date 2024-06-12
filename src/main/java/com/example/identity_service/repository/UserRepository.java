@@ -17,3 +17,4 @@ public interface UserRepository extends JpaRepository<User, String> {
     boolean existsByUsername(String username);//đây là sự kỳ diệu của jpa, tự khởi tạo sql query
     Optional<User> findByUsername(String username);
 }
+

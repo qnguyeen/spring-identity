@@ -9,6 +9,8 @@ ví dụ sử dụng builder :
                 .username("bachoccho")
                 .password("admin123")
                 .build();
+dùng Builder giúp tạo các đối tượng phức tạp 1 cách linh hoạt hơn
+tránh việc tạo nhiều constructor khác nhau để phù hợp với từng giá trị trong đó
 
 @NoArgsConstructor, @AllArgsConstructor
 @FieldDefault(level = ) : xác định kiểu cho các field (private/public/...)

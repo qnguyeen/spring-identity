@@ -1,4 +1,4 @@
-package com.example.identity_service.dto.response;
+package com.example.identity_service.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,7 +8,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationResponse {
+//lớp gửi token để xác thực
+public class IntrospectRequest {
     String token;
-    boolean authenticated;//trả về true nếu trùng và ngược lại
 }

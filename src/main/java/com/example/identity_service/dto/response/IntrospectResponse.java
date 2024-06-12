@@ -8,7 +8,6 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationResponse {
-    String token;
-    boolean authenticated;//trả về true nếu trùng và ngược lại
+public class IntrospectResponse {
+    boolean valid;//xem JWT còn hiệu lực không
 }
