@@ -59,25 +59,25 @@ public class AuthenticationService {
     }
 
     private String generateToken(String username){//build JWT
+        //header của JWT chứa thuật toán và kiểu
         JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);
 
-        //data trong body gọi là claim, khởi tạo claim
+        //data trong body gọi là claim, khởi tạo claim sau đó truyền vào Payload
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(username)//khai báo thông tin trong payload
                 .issuer("http://localhost:8080")
-                .issueTime(new Date())
+                .issueTime(new Date())//ngày khởi tạo
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
-                ))
+                ))//thời hạn
                 .claim("customClaim", "custom")
                 .build();
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
         JWSObject jwsObject = new JWSObject(jwsHeader,payload);//truyen vao header va payload
 
         //ký JWS với một khóa bí mật tuỳ thuộc vào thuật toán được sử dụng
-        //chữ ký này sẽ được thêm vào trong JWT
         try {
-            jwsObject.sign(new MACSigner(SIGN_KEY.getBytes()));
+            jwsObject.sign(new MACSigner(SIGN_KEY.getBytes()));//chữ ký này sẽ được thêm vào trong JWT
             return jwsObject.serialize();//chuyển đối tượng JWS thành JSON
         } catch (JOSEException e) {
             log.error("cannot create token", e);
@@ -96,8 +96,6 @@ public class AuthenticationService {
 
         //kiểm tra xem token hết hạn chưa
         Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();//lấy thời gian hết hạn
-
-
 
         return  IntrospectResponse.builder()
                 .valid(verified && expiryTime.after(new Date()))
