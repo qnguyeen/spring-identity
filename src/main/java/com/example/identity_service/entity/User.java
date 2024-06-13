@@ -1,13 +1,11 @@
 package com.example.identity_service.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity//đánh dấu class như 1 Table
 @Data
@@ -24,5 +22,7 @@ public class User {
     String firstName;
     String lastName;
     LocalDate dob;
-
+    @ElementCollection
+    Set<String> roles; //1 user sẽ có nhiều quyền -> dùng list
+    //Set sẽ unique các item bên trong nó -> != List
 }

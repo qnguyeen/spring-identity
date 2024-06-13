@@ -4,6 +4,7 @@ import com.example.identity_service.dto.request.AuthenticationRequest;
 import com.example.identity_service.dto.request.IntrospectRequest;
 import com.example.identity_service.dto.response.AuthenticationResponse;
 import com.example.identity_service.dto.response.IntrospectResponse;
+import com.example.identity_service.entity.User;
 import com.example.identity_service.exception.AppException;
 import com.example.identity_service.exception.ErrorCode;
 import com.example.identity_service.repository.UserRepository;
@@ -22,11 +23,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.StringJoiner;
 
 @Service
 @RequiredArgsConstructor//tạo constructor cho các biến được define = final
@@ -51,26 +54,27 @@ public class AuthenticationService {
         if(!authenticated)
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
-        var token = generateToken(request.getUsername());
+        var token = generateToken(user);
         return AuthenticationResponse.builder()
                 .token(token)
                 .authenticated(authenticated)
                 .build();
     }
 
-    private String generateToken(String username){//build JWT
+    private String generateToken(User user){//build JWT
         //header của JWT chứa thuật toán và kiểu
         JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);
 
         //data trong body gọi là claim, khởi tạo claim sau đó truyền vào Payload
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(username)//khai báo thông tin trong payload
+                .subject(user.getUsername())//khai báo thông tin trong payload
                 .issuer("http://localhost:8080")
                 .issueTime(new Date())//ngày khởi tạo
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))//thời hạn
-                .claim("customClaim", "custom")
+                //cấu hình chung role trong auth2
+                .claim("scope", buildScope(user))//'scope' : "LIST ROLE"
                 .build();
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
         JWSObject jwsObject = new JWSObject(jwsHeader,payload);//truyen vao header va payload
@@ -100,5 +104,15 @@ public class AuthenticationService {
         return  IntrospectResponse.builder()
                 .valid(verified && expiryTime.after(new Date()))
                 .build();
+    }
+
+    //dùng trên generationToken để build scope
+    private String buildScope(User user){
+        StringJoiner stringJoiner = new StringJoiner(" ");
+        if(!CollectionUtils.isEmpty(user.getRoles()))
+            user.getRoles().forEach(stringJoiner::add);//dùng foreach vì có thể nhiều role
+
+        return stringJoiner.toString();
+
     }
 }
