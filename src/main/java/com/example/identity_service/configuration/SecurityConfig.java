@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -21,6 +22,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 @Configuration//class được init khi chạy, nó sẽ run các method chứa @Bean, đưa vào appContext
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     //các endpoint không cần bảo vệ
@@ -31,6 +33,7 @@ public class SecurityConfig {
     @Value("${jwt.signerKey}")
     private String signerKey;
 
+    //Phân quyền Url thường chỉ dùng để config những api không yêu cầu authen/author
     @Bean
     //cấu hình spring security quyết định endpoint nào cần bảo vệ và không cần bảo vệ
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -38,8 +41,6 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(request ->//biểu thức lambda để config request cho authorizeHttp()
                 //cấu hình các link public - không cần token
                 request.requestMatchers(HttpMethod.POST,PUBLIC_ENDPOINT).permitAll()//cho phép truy cập k cần xác thực
-                        .requestMatchers(HttpMethod.GET,"/users")
-                        .hasRole(Role.ADMIN.name())//cũng có thể dùng hasAuthority
                         .anyRequest().authenticated());//các endpoint khác phải cần token
 
         //method oauth2Res đăng ký, authentication provider
@@ -47,9 +48,13 @@ public class SecurityConfig {
         httpSecurity.oauth2ResourceServer(oauth2 ->
                 //cấu hình thêm cho jwt 1 cái decoder để giải mã chữ ký
                 oauth2.jwt(jwtConfigurer ->
-                        jwtConfigurer.decoder(jwtDecoder())
+                        jwtConfigurer.decoder(jwtDecoder())//method decoder chấp nhận 1 đối tượng JwtCoder để thực hiện
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter()))//customize scope -> role
-                //method decoder chấp nhận 1 đối tượng JwtCoder để thực hiện
+                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                //xử lý lỗi 401, khi authen fail -> điều hướng user đi 1 trang khác
+                //yêu cầu 1 class implement của interface authenticationEntryPoint
+                //method trong class này sẽ được chạy khi start app
+
         );
 
         //spSecurity mặc định bật crfs - thứ bảo vệ endpoint, do muôn truy cập nên phải tắt đi

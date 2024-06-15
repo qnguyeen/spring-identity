@@ -14,3 +14,7 @@ khi decode token, app sẽ lấy thông tin từ scope này để match với ro
     + getAuth : lấy tên người dùng, mật khẩu(mh),các quyền hạn, và các thông tin xác thực khác
 7. Cấu hình httpSecurity.authorizeHttpRequests
 8. Customize JwtAuthenticationConverter
+
+Phân quyền Url thường chỉ dùng để config những api không yêu cầu authen/author
+@PostAuthorize() : inject sau khi method thực hiện xong - ngược lại với PreAutho
+@PreAuthorize("hasRole('ADMIN')") : SprAuth sẽ tạo procedure kiểm tra có role ADMIN mới gọi được method này

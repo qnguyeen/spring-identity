@@ -1,8 +1,0 @@
-
-
-Tạo validation cho các trường hợp
-1. Thêm annotation vào nơi nhận dữ liệu - ở đây là UserCreationRequest
-2. Các valid có thể tạo như size,email,notnull,notempty ,...
-3. Khi dùng các annotate validation, phải khai báo @Valid trong method ở Controller
-4. @Valid : thông báo các validate cho obj UserCrea dựa trên Validation của nó
-5. Thêm handle cho MethodArgumentNotValidException
