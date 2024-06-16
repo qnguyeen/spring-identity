@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity//đánh dấu class như 1 Table
@@ -22,7 +23,9 @@ public class User {
     String firstName;
     String lastName;
     LocalDate dob;
-    @ElementCollection
-    Set<String> roles; //1 user sẽ có nhiều quyền -> dùng list
+
+    List<String> roles;
     //Set sẽ unique các item bên trong nó -> != List
+
+
 }

@@ -52,7 +52,7 @@ public class UserService {
         //khi tạo 1 user mới, set thêm role mặc định cho user đó
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.USER.name());//gán "USER" vào chuỗi JSON roles
-        user.setRoles(roles);
+        //user.setRoles(roles);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }

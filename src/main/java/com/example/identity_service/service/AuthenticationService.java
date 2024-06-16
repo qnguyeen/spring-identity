@@ -109,8 +109,8 @@ public class AuthenticationService {
     //dùng trên generationToken để build scope
     private String buildScope(User user){
         StringJoiner stringJoiner = new StringJoiner(" ");
-        if(!CollectionUtils.isEmpty(user.getRoles()))
-            user.getRoles().forEach(stringJoiner::add);//dùng foreach vì có thể nhiều role
+       // if(!CollectionUtils.isEmpty(user.getRoles()))
+          //  user.getRoles().forEach(stringJoiner::add);//dùng foreach vì có thể nhiều role
 
         return stringJoiner.toString();
 
