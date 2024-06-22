@@ -16,6 +16,8 @@ public enum ErrorCode {
     UNAUTHENTICATED(1006,"Unauthenticated",HttpStatus.UNAUTHORIZED),//401
     //401 k được xử lý bởi Global bởi nó xảy ra trên các tầng filter -> xử lý = secuConfig
     UNAUTHORIZED(1007,"You do not have permission ",HttpStatus.FORBIDDEN),//403
+    DOB_INVALID(1008,"Invalid date of birth",HttpStatus.BAD_REQUEST),
+
     ;
     private int code;
     private String message;

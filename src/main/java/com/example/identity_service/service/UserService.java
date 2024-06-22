@@ -41,7 +41,7 @@ public class UserService {
 
         //map request vào User
         User user = userMapper.toUser(request);
-        //method userMapper sẽ map những field cùng tên lại với nhau, xem trong targer
+        //method userMapper sẽ map những field cùng tên lại với nhau, xem trong target
         //tương đương dùng : user.setUsername(request.getUsername());
 
         //mã hoá pass
