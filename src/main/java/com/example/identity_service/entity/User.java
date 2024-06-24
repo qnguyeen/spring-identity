@@ -24,8 +24,7 @@ public class User {
     String lastName;
     LocalDate dob;
 
-    List<String> roles;
+    @ManyToMany
+    Set<Role> roles;
     //Set sẽ unique các item bên trong nó -> != List
-
-
 }

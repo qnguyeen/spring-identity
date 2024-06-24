@@ -14,7 +14,6 @@ import java.io.IOException;
 
 //sẽ được gọi để xử lý các lỗi xác thực khi truy cập tài nguyên đang được bảo vệ mà k có JWT hợp lệ
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    //ctrl + i để implement các method
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {

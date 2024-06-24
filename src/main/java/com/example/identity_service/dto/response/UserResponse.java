@@ -11,7 +11,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-//lóp tạo ra để lưu giá trị trả về của User
 public class UserResponse {
     String id;
     String username;
@@ -19,5 +18,5 @@ public class UserResponse {
     String firstName;
     String lastName;
     LocalDate dob;
-    Set<String> roles;
+    Set<RoleResponse> roles;
 }

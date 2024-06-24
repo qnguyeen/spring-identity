@@ -18,7 +18,7 @@ import java.util.HashSet;
 @Configuration
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Slf4j//dùng log
+@Slf4j
 public class ApplicationInitConfig {
     //khi start, hệ thống sẽ tự động tạo 1 role admin vào user
 
@@ -35,7 +35,7 @@ public class ApplicationInitConfig {
                 User user = User.builder()
                         .username("admin")
                         .password(passwordEncoder.encode("admin"))
-                      //  .roles(roles)//truyen role vao
+                        //.roles(roles)//truyen role vao
                         .build();
 
                 userRepository.save(user);

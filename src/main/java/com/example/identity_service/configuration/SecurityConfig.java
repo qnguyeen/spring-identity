@@ -1,6 +1,7 @@
 package com.example.identity_service.configuration;
 
 import com.example.identity_service.enums.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,45 +21,30 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import javax.crypto.spec.SecretKeySpec;
 
-@Configuration//class được init khi chạy, nó sẽ run các method chứa @Bean, đưa vào appContext
+@Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    CustomJwtDecoder jwtDecoder;
     //các endpoint không cần bảo vệ
     private final String[] PUBLIC_ENDPOINT = {"/users",
-            "/auth/token","/auth/introspect"
+            "/auth/token","/auth/introspect","auth/logout"
     };
-
-    @Value("${jwt.signerKey}")
-    private String signerKey;
 
     //Phân quyền Url thường chỉ dùng để config những api không yêu cầu authen/author
     @Bean
-    //cấu hình spring security quyết định endpoint nào cần bảo vệ và không cần bảo vệ
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        //httpSecurity cung cấp method để cấu hình
-        httpSecurity.authorizeHttpRequests(request ->//biểu thức lambda để config request cho authorizeHttp()
-                //cấu hình các link public - không cần token
-                request.requestMatchers(HttpMethod.POST,PUBLIC_ENDPOINT).permitAll()//cho phép truy cập k cần xác thực
-                        .anyRequest().authenticated());//các endpoint khác phải cần token
+        httpSecurity.authorizeHttpRequests(request ->
+                request.requestMatchers(HttpMethod.POST,PUBLIC_ENDPOINT).permitAll()
+                        .anyRequest().authenticated());
 
-        //method oauth2Res đăng ký, authentication provider
-        //khi nhập token, jwt auth provider sẽ inject và bắt đầu thực hiện authentication
         httpSecurity.oauth2ResourceServer(oauth2 ->
-                //cấu hình thêm cho jwt 1 cái decoder để giải mã chữ ký
                 oauth2.jwt(jwtConfigurer ->
-                        jwtConfigurer.decoder(jwtDecoder())//method decoder chấp nhận 1 đối tượng JwtCoder để thực hiện
-                                .jwtAuthenticationConverter(jwtAuthenticationConverter()))//customize scope -> role
+                        jwtConfigurer.decoder(jwtDecoder)
+                                     .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-                //xử lý lỗi 401, khi authen fail -> điều hướng user đi 1 trang khác
-                //yêu cầu 1 class implement của interface authenticationEntryPoint
-                //method trong class này sẽ được chạy khi start app
-
         );
-
-        //spSecurity mặc định bật crfs - thứ bảo vệ endpoint, do muôn truy cập nên phải tắt đi
-        //httpSecurity.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
         httpSecurity.csrf(AbstractHttpConfigurer::disable);//rút ngắn lại = lambda
         return httpSecurity.build();
     }
@@ -68,23 +54,13 @@ public class SecurityConfig {
     JwtAuthenticationConverter jwtAuthenticationConverter(){
         //method chuyển thông tin thành quyền hạn
         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
+        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("");
 
         //method chuyển JWT thành đối tượng Authentication
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
         converter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
 
         return converter;
-    }
-
-    @Bean
-    JwtDecoder jwtDecoder() {
-        //tạo 1 seckey
-        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
-        return NimbusJwtDecoder
-                .withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS512)
-                .build();
     }
 
     @Bean

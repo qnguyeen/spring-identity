@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @Builder//tạo buidler class cho DTO - giúp tạo các đối tượng một cách rõ ràng, có thể thiết lập giá trị
 @FieldDefaults(level = AccessLevel.PRIVATE)//thiết lập mức truy cập cho các field
 public class UserCreationRequest {
-    //Đây là lớp DTO(Data Transfer Object), sử dụng để nhận dữ liệu từ yêu cầu HTTP
     //Nó chứa các thuộc tính cần thiết để tạo một đối tượng User
     //không cần ID vì ID tự khởi tạo
     @Size(min = 3, message = "USERNAME_INVALID")

@@ -8,6 +8,7 @@ import com.example.identity_service.enums.Role;
 import com.example.identity_service.exception.AppException;
 import com.example.identity_service.exception.ErrorCode;
 import com.example.identity_service.mapper.UserMapper;
+import com.example.identity_service.repository.RoleRepository;
 import com.example.identity_service.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -29,25 +30,16 @@ public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
+    RoleRepository roleRepository;
 
-    //Lưu ý : đôi khi chúng ta chỉ muốn trả về những object nhất định chứ k trả về toán bộ
-    //-> tạo 1 DTO khác để nhận dữ liệu trả vể : dto.response.UserResponse
-    //public User createUser(UserCreationRequest request){}
     public UserResponse createUser(UserCreationRequest request) {
-        //kiểm tra nếu trùng với username đã tồn tại
         if (userRepository.existsByUsername(request.getUsername()))
             throw new AppException(ErrorCode.USER_EXISTED);
-        //quăng đối tượng AppExec với tham số từ Enum class ErrorCode
 
-        //map request vào User
         User user = userMapper.toUser(request);
-        //method userMapper sẽ map những field cùng tên lại với nhau, xem trong target
-        //tương đương dùng : user.setUsername(request.getUsername());
 
-        //mã hoá pass
-        //do encoder dùng nhiều lần nên tạo 1 Bean cho nó ở SecuConfig
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        //hàm encode trả về 1 chuỗi đã được mã hoá
+
 
         //khi tạo 1 user mới, set thêm role mặc định cho user đó
         HashSet<String> roles = new HashSet<>();
@@ -75,6 +67,10 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         userMapper.updateUser(user, request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
         return userMapper.toUserResponse(userRepository.save(user));
     }
 

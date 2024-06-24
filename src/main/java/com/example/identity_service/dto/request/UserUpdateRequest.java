@@ -6,6 +6,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +18,7 @@ public class UserUpdateRequest {
     String password;
     String firstName;
     String lastName;
-
+    List<String> roles;
     @DobConstraint(min = 18, message = "DOB_INVALID")
     LocalDate dob;
 }

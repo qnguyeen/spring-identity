@@ -28,8 +28,6 @@ public class UserController {
     @PostMapping
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request){
         //@RequestBody : chuyển JSON trong file UserCrea thành đối tượng java
-        //@Valid : kích hoạt cơ chế xác thực được định nghĩa trên các trường UserCrea
-        //method nhận đối tượng UserCreationRequest từ body của yêu cầu
         return ApiResponse.<UserResponse>builder()
                 .result(userService.createUser(request))
                 .build();

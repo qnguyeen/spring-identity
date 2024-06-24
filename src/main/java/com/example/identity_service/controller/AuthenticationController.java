@@ -3,6 +3,7 @@ package com.example.identity_service.controller;
 import com.example.identity_service.dto.request.ApiResponse;
 import com.example.identity_service.dto.request.AuthenticationRequest;
 import com.example.identity_service.dto.request.IntrospectRequest;
+import com.example.identity_service.dto.request.LogoutRequest;
 import com.example.identity_service.dto.response.AuthenticationResponse;
 import com.example.identity_service.dto.response.IntrospectResponse;
 import com.example.identity_service.service.AuthenticationService;
@@ -24,6 +25,7 @@ import java.text.ParseException;
 public class AuthenticationController {
     AuthenticationService authenticationService;
 
+    //lấy token
     @PostMapping("/token")
     ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         var result = authenticationService.authenticate(request);
@@ -32,11 +34,19 @@ public class AuthenticationController {
                 .build();
     }
 
+    //kiểm tra thời hạn token
     @PostMapping("/introspect")
     ApiResponse<IntrospectResponse> authenticate(@RequestBody IntrospectRequest request) throws ParseException, JOSEException {
         var result = authenticationService.introspectResponse(request);
         return ApiResponse.<IntrospectResponse>builder()
                 .result(result)
+                .build();
+    }
+
+    @PostMapping("/logout")
+    ApiResponse<Void> logout(@RequestBody LogoutRequest request) throws ParseException, JOSEException {
+        authenticationService.logout(request);
+        return ApiResponse.<Void>builder()
                 .build();
     }
 }
