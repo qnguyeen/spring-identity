@@ -1,20 +1,20 @@
 package com.example.identity_service.controller;
 
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
 import com.example.identity_service.dto.request.ApiResponse;
-import com.example.identity_service.dto.request.PermissionRequest;
 import com.example.identity_service.dto.request.RoleRequest;
-import com.example.identity_service.dto.response.PermissionResponse;
 import com.example.identity_service.dto.response.RoleResponse;
 import com.example.identity_service.service.PermissionService;
 import com.example.identity_service.service.RoleService;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RestController
@@ -27,11 +27,12 @@ public class RoleController {
     private final RoleService roleService;
 
     @PostMapping
-    ApiResponse<RoleResponse> create(@RequestBody RoleRequest request){
+    ApiResponse<RoleResponse> create(@RequestBody RoleRequest request) {
         return ApiResponse.<RoleResponse>builder()
                 .result(roleService.create(request))
                 .build();
     }
+
     @GetMapping
     ApiResponse<List<RoleResponse>> getAll() {
         return ApiResponse.<List<RoleResponse>>builder()
@@ -40,7 +41,7 @@ public class RoleController {
     }
 
     @DeleteMapping("/{role}")
-    ApiResponse<Void> deleteUser(@PathVariable String role){
+    ApiResponse<Void> deleteUser(@PathVariable String role) {
         roleService.deleteRole(role);
         return ApiResponse.<Void>builder().build();
     }

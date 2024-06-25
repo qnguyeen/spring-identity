@@ -8,7 +8,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-//lớp gửi token để xác thực
+// lớp gửi token để xác thực
 public class PermissionRequest {
     String name;
     String description;

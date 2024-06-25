@@ -3,8 +3,6 @@ package com.example.identity_service.dto.response;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Set;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,5 +11,4 @@ import java.util.Set;
 public class PermissionResponse {
     String name;
     String description;
-
 }

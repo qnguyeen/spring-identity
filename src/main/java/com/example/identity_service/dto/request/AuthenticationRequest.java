@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthenticationRequest {
-    //nhận thông tin từ người dùng
+    // nhận thông tin từ người dùng
     String username;
     String password;
 }

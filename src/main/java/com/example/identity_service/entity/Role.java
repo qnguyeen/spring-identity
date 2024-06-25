@@ -1,13 +1,13 @@
 package com.example.identity_service.entity;
 
+import java.util.Set;
+
 import jakarta.persistence.*;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
-import java.util.Set;
-
-@Entity//đánh dấu class như 1 Table
+@Entity // đánh dấu class như 1 Table
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,6 +16,7 @@ import java.util.Set;
 public class Role {
     @Id
     String name;
+
     String description;
 
     @ManyToMany
