@@ -18,8 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @ControllerAdvice
 // khi có exc xảy ra, class này sẽ chịu trách nhiệm handle cái exc đó
-// @ControllerAdvice can thiệp vào việc xử lý của các Controller thông thường
-// @RestControllerAdvice khác ở chỗ nó can thiệp vào việc xử lý của các @RestController
 public class GlobalExceptionHandler {
     private static final String MIN_ATTRIBUTE = "min";
 

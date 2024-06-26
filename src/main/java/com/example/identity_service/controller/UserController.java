@@ -37,8 +37,6 @@ public class UserController {
 
     @GetMapping
     ApiResponse<List<UserResponse>> getUsers() {
-        // getContext() : lấy SecurityContext - nơi lưu trữ thông tin về bảo mật
-        // getAuth : lấy tên người dùng, mật khẩu(mh),các quyền hạn, và các thông tin xác thực khác
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 
         log.info("Username: {}", authentication.getName());

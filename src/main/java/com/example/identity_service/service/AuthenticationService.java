@@ -72,7 +72,7 @@ public class AuthenticationService {
     }
 
     private SignedJWT verifyToken(String token, boolean isRefresh) throws JOSEException, ParseException {
-        JWSVerifier verifier = new MACVerifier(SIGN_KEY.getBytes()); // tạo thuật toán MAC
+        JWSVerifier verifier = new MACVerifier(SIGN_KEY.getBytes());
         SignedJWT signedJWT = SignedJWT.parse(token); // object signedJWT chứa 3 phần của token
         var verified = signedJWT.verify(verifier); // xác minh chữ ký
         Date expiryTime = (isRefresh)
@@ -93,7 +93,7 @@ public class AuthenticationService {
     public void logout(LogoutRequest request) throws ParseException, JOSEException {
         try {
             var signToken = verifyToken(request.getToken(), true);
-            String jit = signToken.getJWTClaimsSet().getJWTID(); // lấy id
+            String jit = signToken.getJWTClaimsSet().getJWTID();
             Date expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
             InvalidatedToken invalidatedToken =
                     InvalidatedToken.builder().id(jit).expiryTime(expiryTime).build();
@@ -145,7 +145,7 @@ public class AuthenticationService {
             throw new RuntimeException(e);
         }
     }
-    // verify token
+
     public IntrospectResponse introspectResponse(IntrospectRequest request) throws JOSEException, ParseException {
         var token = request.getToken();
         boolean isValid = true;
@@ -157,7 +157,6 @@ public class AuthenticationService {
         return IntrospectResponse.builder().valid(isValid).build();
     }
 
-    // dùng trên generationToken để build scope
     private String buildScope(User user) {
         StringJoiner stringJoiner = new StringJoiner(" ");
         if (!CollectionUtils.isEmpty(user.getRoles()))

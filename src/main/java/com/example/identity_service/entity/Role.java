@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Entity // đánh dấu class như 1 Table
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -16,10 +16,12 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
     @Id // tự khởi tạo id cho User
-    @GeneratedValue(strategy = GenerationType.UUID) // UUID cho phép khởi tạo ID 1 cách ngẫu nhiên
+    @GeneratedValue(strategy = GenerationType.UUID)
     String id;
 
+    @Column(name = "username", unique = true, columnDefinition = "VARCHAR(255) COLLATE utf8mb4_unicode_ci")
     String username;
+
     String password;
     String firstName;
     String lastName;

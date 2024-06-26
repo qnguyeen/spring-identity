@@ -9,20 +9,16 @@ import com.example.identity_service.validator.DobConstraint;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Data // tự động tạo method getter setter đồng thời thêm constructor cho class
-@NoArgsConstructor // tạo constructor không có tham sô
-@AllArgsConstructor // có tham số
-@Builder // tạo buidler class cho DTO - giúp tạo các đối tượng một cách rõ ràng, có thể thiết lập giá trị
-@FieldDefaults(level = AccessLevel.PRIVATE) // thiết lập mức truy cập cho các field
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreationRequest {
-    // Nó chứa các thuộc tính cần thiết để tạo một đối tượng User
-    // không cần ID vì ID tự khởi tạo
     @Size(min = 3, message = "USERNAME_INVALID")
     String username;
 
-    // khi dùng các annotate validation, phải khai báo @Valid trong method ở Controller
-    // khai báo size và trả về thông báo nếu sai quy định
-    @Size(min = 8, message = "PASSWORD_INVALID") // lấy message Exception here
+    @Size(min = 8, message = "PASSWORD_INVALID")
     String password;
 
     String firstName;

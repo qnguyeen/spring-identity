@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Entity // đánh dấu class như 1 Table
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,5 +18,5 @@ public class InvalidatedToken {
     @Id
     String id;
 
-    Date expiryTime; // dùng để xác định token nào hết hạn để xoá
+    Date expiryTime;
 }

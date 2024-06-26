@@ -9,13 +9,9 @@ import com.example.identity_service.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
-    // JpaRepo là Interface cung cấp method CRUD
-    // JPA tự động generate code
-    // => tạo 1 repo cho User, khoá chính kiểu String như file UserEntiry
+    // JpaRepo là Interface cung cấp method CRUD, tự động generate code
 
-    // do JPA chỉ tự tạo được những method CRUD nên các method phức tạp hơn phải tự tạo
-    // tạo 1 method kiểm tra xem username đã tồn tại chưa khi tạo 1 user mới
-    boolean existsByUsername(String username); // đây là sự kỳ diệu của jpa, tự khởi tạo sql query
+    boolean existsByUsername(String username);
 
     Optional<User> findByUsername(String username);
 }
