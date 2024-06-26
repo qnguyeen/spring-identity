@@ -17,6 +17,7 @@ import lombok.experimental.FieldDefaults;
 @Service
 @RequiredArgsConstructor // tạo constructor cho các biến được define = final
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+
 public class PermissionService {
     PermissionRepository permissionRepository;
     PermissionMapper permissionMapper;

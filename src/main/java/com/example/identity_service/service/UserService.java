@@ -27,7 +27,7 @@ import lombok.experimental.FieldDefaults;
 @Service
 @RequiredArgsConstructor // tạo constructor cho các biến được define = final
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class UserService {
+public class  UserService {
 
     UserRepository userRepository;
     UserMapper userMapper;
@@ -35,8 +35,8 @@ public class UserService {
     RoleRepository roleRepository;
 
     public UserResponse createUser(UserCreationRequest request) {
-        if (userRepository.existsByUsername(request.getUsername())) throw new AppException(ErrorCode.USER_EXISTED);
-
+        //if (userRepository.existsByUsername(request.getUsername())) throw new AppException(ErrorCode.USER_EXISTED);
+        //đã có exception khác xử lý lỗi này nếu unique != true ở Entity User
         User user = userMapper.toUser(request);
 
         user.setPassword(passwordEncoder.encode(request.getPassword()));

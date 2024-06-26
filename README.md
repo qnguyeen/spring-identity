@@ -19,11 +19,12 @@ Học Spring Security qua Identity Service
 - [x] 16/6 handling exception and return with custom Http Status Code
 - [x] 16/6 authorization with role & permission use n&n JPA
 - [x] 16/6 authorization with role & permission with JWT
-- [ ] 17/6 validation with custome annotation
-- [ ] 17/6 logout with JWT token
-- [ ] 18/6 refresh with JWT token & align with Oauth2
+- [x] 24/6 validation with custome annotation
+- [x] 25/6 logout with JWT token
+- [x] 25/6 refresh with JWT token & align with Oauth2
 - [ ] 19/6 unit test & isolation
 - [ ] 19/6 jacoco, integration test with testContainer
 - [ ] 20/6 spotless & sonalint & sonaqube
-- [ ] 21/6 cấu hình CORS và integrate Front-end
-- [ ] 21/6 unique field & bài toán concurrent request
+- [x] 26/6 cấu hình CORS và integrate Front-end
+- [x] 26/6 unique field & bài toán concurrent request
+- [x] 26/6 profile và biến môi trường
